@@ -7,12 +7,16 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <SearchView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    />
     <Button
         android:id="@+id/buttonlevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ürün Eklemek İçin Dokunun."
-        android:textSize="26dp"
+        android:text="Ürünü bul/Ürünü Ekle"
+        android:textSize="30dp"
         android:textColor="@color/white"
         />
 

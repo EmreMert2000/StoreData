@@ -1,6 +1,7 @@
 package com.example.projectstoredata
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
@@ -35,7 +36,9 @@ class ProductAdd : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         // setContentView(R.layout.activity_product_add)
-          registerLauncher()
+
+        database=this.openOrCreateDatabase("Prod",Context.MODE_PRIVATE,null)
+        registerLauncher()
         val intent = intent
 
         val info = intent.getStringExtra("info")
@@ -94,10 +97,10 @@ class ProductAdd : AppCompatActivity() {
 
             try {
 
-                database.execSQL("CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, productname VARCHAR, productadet VARCHAR,productprice VARCHAR, image BLOB)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS prod (id INTEGER PRIMARY KEY, productname VARCHAR, productadet VARCHAR,productprice VARCHAR, image BLOB)")
 
                 val sqlString =
-                    "INSERT INTO products (productName, productadet, productprice, image) VALUES (?, ?, ?, ?)"
+                    "INSERT INTO prod (productname, productadet, productprice, image) VALUES (?, ?, ?, ?)"
                 val statement = database.compileStatement(sqlString)
                 statement.bindString(1, productName)
                 statement.bindString(2, productadet)

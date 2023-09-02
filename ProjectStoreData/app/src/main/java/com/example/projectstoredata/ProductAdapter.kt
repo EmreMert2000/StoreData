@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectstoredata.databinding.RecRowBinding
 
-class ProductAdapter(val artList : ArrayList<Product>) : RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
+class ProductAdapter(val Productlist : ArrayList<Product>) : RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
     class ProductHolder(val binding:RecRowBinding) : RecyclerView.ViewHolder(binding.root) {
     }
 
@@ -16,16 +16,16 @@ class ProductAdapter(val artList : ArrayList<Product>) : RecyclerView.Adapter<Pr
     }
 
     override fun onBindViewHolder(holder: ProductHolder, position: Int) {
-        holder.binding.recyclerViewTextView.text = artList.get(position).name
+        holder.binding.recyclerViewTextView.text = Productlist.get(position).name
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, ProductAdd::class.java)
             intent.putExtra("info", "old")
-            intent.putExtra("id", artList[position].id)
+            intent.putExtra("id", Productlist[position].id)
             holder.itemView.context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
-        return artList.size
+        return Productlist.size
     }
 }

@@ -35,17 +35,18 @@ class MainActivity : AppCompatActivity() {
         }
         try {
 
-            val database = this.openOrCreateDatabase("products", Context.MODE_PRIVATE,null)
+            val database = this.openOrCreateDatabase("Prod", Context.MODE_PRIVATE,null)
 
-            val cursor = database.rawQuery("SELECT * FROM products",null)
+
+            val cursor = database.rawQuery("SELECT * FROM prod",null)
             val productNameIx = cursor.getColumnIndex("productname")
             val idIx = cursor.getColumnIndex("id")
 
             while (cursor.moveToNext()) {
                 val name = cursor.getString(productNameIx)
                 val id = cursor.getInt(idIx)
-                val procut = Product(name,id)
-                ProductList.add(procut)
+                val product = Product(name,id)
+                ProductList.add(product)
             }
 
             ProductAdapter.notifyDataSetChanged()
