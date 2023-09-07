@@ -43,6 +43,9 @@ class ProductAdd : AppCompatActivity() {
 
         val info = intent.getStringExtra("info")
 
+
+        binding.DeleteButton.visibility = View.INVISIBLE
+
         if (info.equals("new")) {
             binding.ProductName.setText("")
             binding.ProductAdet.setText("")
@@ -54,9 +57,11 @@ class ProductAdd : AppCompatActivity() {
 
         } else {
             binding.button.visibility = View.INVISIBLE
+            binding.DeleteButton.visibility=View.VISIBLE
+
             val selectedId = intent.getIntExtra("id",1)
 
-            val cursor = database.rawQuery("SELECT * FROM products WHERE id = ?", arrayOf(selectedId.toString()))
+            val cursor = database.rawQuery("SELECT * FROM Prod WHERE id = ?", arrayOf(selectedId.toString()))
 
             val productnameIx = cursor.getColumnIndex("productname")
             val productAdetIx = cursor.getColumnIndex("productadet")
@@ -108,6 +113,7 @@ class ProductAdd : AppCompatActivity() {
                 statement.bindBlob(4, byteArray)
 
                 statement.execute()
+                Toast.makeText(this@ProductAdd, "Ürün Başarıyla Eklendi!", Toast.LENGTH_LONG).show()
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -122,6 +128,47 @@ class ProductAdd : AppCompatActivity() {
             //finish()
         }
     }
+
+    fun deleteFun(view: View)
+    {
+        try {
+
+            val selectedId = intent.getIntExtra("id",1)
+
+             val cursor=database.rawQuery("DELETE  FROM Prod WHERE id = ?", arrayOf(selectedId.toString()))
+            val productnameIx = cursor.getColumnIndex("productname")
+            val productAdetIx = cursor.getColumnIndex("productadet")
+            val productPriceIx = cursor.getColumnIndex("productprice")
+            val imageIx = cursor.getColumnIndex("image")
+
+            while (cursor.moveToNext()) {
+                binding.ProductName.setText(cursor.getString(productnameIx))
+                binding.ProductAdet.setText(cursor.getString(productAdetIx))
+                binding.ProductPrice.setText(cursor.getString(productPriceIx))
+
+                val byteArray = cursor.getBlob(imageIx)
+                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                binding.imageView.setImageBitmap(bitmap)
+            }
+            cursor.close()
+
+            Toast.makeText(this, "Ürün Başarıyla Silindi.", Toast.LENGTH_SHORT).show()
+
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
+
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        startActivity(intent)
+    }
+
+
     private fun makeSmallerBitmap(image: Bitmap, maximumSize : Int) : Bitmap {
         var width = image.width
         var height = image.height

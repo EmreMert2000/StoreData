@@ -1,12 +1,17 @@
 package com.example.projectstoredata
 
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import kotlin.text.contains
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.projectstoredata.databinding.ActivityMainBinding
 import java.lang.Exception
 
@@ -27,6 +32,34 @@ class MainActivity : AppCompatActivity() {
         ProductAdapter = ProductAdapter(ProductList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = ProductAdapter
+
+
+
+
+        //SearchBox Fun
+
+
+      //  val adapterSearch = ProductAdapter(ProductList)
+
+
+        binding.searchbox.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+          override fun onQueryTextSubmit(query: String?): Boolean {
+
+
+              return false
+
+          }
+
+          override fun onQueryTextChange(newText: String?): Boolean {
+
+              newText?.let {
+                  ProductAdapter.filter(it)
+              }
+                 return true
+          }
+
+
+      })
 
         binding.buttonlevel.setOnClickListener{
             val intent = Intent(this,ProductAdd::class.java)
@@ -59,5 +92,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun onSearchResult(filteredResults: List<Product>) {
+
+    }
+
 
 }
+
+

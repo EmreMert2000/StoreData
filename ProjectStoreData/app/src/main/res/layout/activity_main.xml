@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <SearchView
+        android:id="@+id/searchbox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     />
@@ -15,7 +16,7 @@
         android:id="@+id/buttonlevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ürünü bul/Ürünü Ekle"
+        android:text="Ürün Ekle"
         android:textSize="30dp"
         android:textColor="@color/white"
         />
