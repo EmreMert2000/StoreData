@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        //SearchBox Fun
 
 
       //  val adapterSearch = ProductAdapter(ProductList)
@@ -45,8 +44,10 @@ class MainActivity : AppCompatActivity() {
         binding.searchbox.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
           override fun onQueryTextSubmit(query: String?): Boolean {
 
-
-              return false
+              if (query != null) {
+                  ProductAdapter.filter(query)
+              }
+              return true
 
           }
 

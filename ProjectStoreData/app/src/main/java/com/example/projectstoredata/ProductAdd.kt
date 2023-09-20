@@ -1,6 +1,7 @@
 package com.example.projectstoredata
 
 import android.Manifest
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -45,6 +46,7 @@ class ProductAdd : AppCompatActivity() {
 
 
         binding.DeleteButton.visibility = View.INVISIBLE
+        binding.UpdateButton.visibility=View.INVISIBLE
 
         if (info.equals("new")) {
             binding.ProductName.setText("")
@@ -58,6 +60,7 @@ class ProductAdd : AppCompatActivity() {
         } else {
             binding.button.visibility = View.INVISIBLE
             binding.DeleteButton.visibility=View.VISIBLE
+            binding.UpdateButton.visibility=View.VISIBLE
 
             val selectedId = intent.getIntExtra("id",1)
 
@@ -167,6 +170,55 @@ class ProductAdd : AppCompatActivity() {
 
         startActivity(intent)
     }
+
+    fun UpdateFun(view: View) {
+        try {
+            val selectedId = intent.getIntExtra("id", 1)
+
+            // Kullanıcının girdiği yeni verileri alın
+            val yeniProductIsmi = binding.ProductName.text.toString()
+            val yeniProductAdeti = binding.ProductAdet.text.toString()
+            val yeniProductFiyati = binding.ProductPrice.text.toString()
+
+
+            // Güncel verileri ContentValues nesnesine ekleyin
+            val contentValues = ContentValues()
+            contentValues.put("productname", yeniProductIsmi)
+            contentValues.put("productadet", yeniProductAdeti)
+            contentValues.put("productprice", yeniProductFiyati)
+
+
+            // UPDATE sorgusu ile veritabanını güncelleyin
+            val affectedRows =
+                database.update("Prod", contentValues, "id = ?", arrayOf(selectedId.toString()))
+
+            if (affectedRows > 0) {
+                Toast.makeText(this, "Ürün Başarıyla Güncellendi.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Ürün Güncellenemedi.", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private fun makeSmallerBitmap(image: Bitmap, maximumSize : Int) : Bitmap {
